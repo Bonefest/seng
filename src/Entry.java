@@ -87,10 +87,6 @@ class Entry {
     }
     
     public static void main(String[] args) {
-  
-    	List mockedList = mock(List.class);
-    	mockedList.add("test");
-    	verify(mockedList).add("test");
     	
     	initializeShop();
     	Transaction demoTransaction = generateDemoTransaction();

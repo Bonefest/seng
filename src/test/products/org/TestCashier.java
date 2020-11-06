@@ -1,5 +1,6 @@
-package tests.products.org;
+package src.test.products.org;
 
+import src.main.products.org.*;
 import java.util.ArrayList;
 
 import org.junit.*;
@@ -8,7 +9,6 @@ import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.*;
 
-import products.org.*;
 
 @RunWith(JUnit4.class)
 public class TestCashier {
