@@ -44,6 +44,8 @@ public class TestShop {
     	shop.addService(mockedCashier);
     	
     	assertEquals(false, shop.purchase(transaction));
+    	
+    	verify(mockedCashier, never()).purchase(any(Transaction.class));
     }
 
     @Test
@@ -69,6 +71,8 @@ public class TestShop {
     	
     	assertEquals(shop.purchase(transaction), true);
     	assertEquals(shop.purchase(transaction), false);
+    	
+    	verify(mockedCashier).isSupport(TransactionType.Authorative);
     }
     
     @Test
@@ -89,6 +93,9 @@ public class TestShop {
     	shop.addService(mockedCahiser);
     	
     	assertEquals(true, shop.purchase(transaction));
+    	
+    	verify(mockedCahiser).isSupport(TransactionType.Authorative);
+    	verify(mockedCahiser).purchase(any(Transaction.class));
     }
     
     @Test
@@ -105,7 +112,29 @@ public class TestShop {
     	shop.addService(mockedService);
     	
     	assertEquals(true, shop.purchase(transaction));
+    	
+    	verify(mockedService).isSupport(any(TransactionType.class));
     }
+    
+    @Test
+    public void testShopServiceMethodsCalled() {
+    	Transaction transaction = new Transaction();
+    	transaction.type = TransactionType.SeflCheckout;
+    	transaction.account = new Account(1000.0f, 1);
+    	transaction.products = new ArrayList<Product>() { {add(registry.generateProduct("product")); } };
+    	
+    	Service mockedService = mock(Service.class);
+    	when(mockedService.isSupport(TransactionType.SeflCheckout)).thenReturn(true);
+    	when(mockedService.purchase(transaction)).thenReturn(PurchaseStatus.Accepted);
+    	
+    	shop.addService(mockedService);
+    	
+    	shop.purchase(transaction);
+    	
+    	verify(mockedService).isSupport(TransactionType.SeflCheckout);
+    }
+    
+        
     
     @Test
     public void testRegistryGeneratedSuccessfully() {
