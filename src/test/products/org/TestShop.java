@@ -58,6 +58,8 @@ public class TestShop {
     	shop.addService(mockedCashier);
     	
     	assertEquals(false, shop.purchase(transaction));
+
+	verify(mockedCashier).isSupport(TransactionType.Internet);
     }
 
     @Test
@@ -73,12 +75,21 @@ public class TestShop {
     	assertEquals(shop.purchase(transaction), false);
     	
     	verify(mockedCashier).isSupport(TransactionType.Authorative);
+	verify(mockedCashier).purchase(any(Transaction.class));
     }
     
     @Test
     public void Purchase_WithEmptyBalance_ShouldReturnFalse() {
     	transaction.account.setBalance(0.0f);
+
+    	Cashier mockedCashier = mock(Cashier.class);
+    	when(mockedCashier.isSupport(TransactionType.Authorative)).thenReturn(true);
+
+	shop.addService(mockedCahiser);
+
     	assertEquals(false, shop.purchase(transaction));
+
+	verify(mockedCashier).isSupport(TransactionType.Authorative);
     }
  
     @Test
@@ -113,6 +124,7 @@ public class TestShop {
     	
     	assertEquals(true, shop.purchase(transaction));
     	
+	verify(mockedService).purchase(any(Transaction.class));
     	verify(mockedService).isSupport(any(TransactionType.class));
     }
     
@@ -131,6 +143,7 @@ public class TestShop {
     	assertEquals(true, shop.purchase(transaction));
  
     	verify(mockedService).isSupport(TransactionType.SeflCheckout);
+	verify(mockedService).purchase(any(Transaction.class));
     }
     
 }
