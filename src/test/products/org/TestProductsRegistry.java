@@ -22,30 +22,30 @@ public class TestProductsRegistry {
 	}
 	
     @Test
-    public void testRegisterSameTypeTwice() {
+    public void RegisterProduct_WithSameType_ShouldReturnFalse() {
     	assertEquals(registry.registerProduct("TestType", dummyProduct), true);
     	assertEquals(registry.registerProduct("TestType", dummyProduct), false);
     }
     
     @Test
-    public void testRegisterHexType() {
+    public void RegisterProduct_WithSameHexType_ShouldReturnFalse() {
     	assertEquals(registry.registerProduct(255, dummyProduct), true);
     	assertEquals(registry.registerProduct("FF", dummyProduct), false);
     }
     
     @Test
-    public void testGenerateUnexistingProduct() {
+    public void RegisterProduct_WithUnexistingType_ShouldReturnFalse() {
     	assertNull(registry.generateProduct("some weird type"));
     }
     
     @Test
-    public void testGenerateExistingProduct() {
+    public void RegisterProduct_WithExistingType_ShouldReturnNotNull() {
     	registry.registerProduct("type", dummyProduct);
     	assertNotNull(registry.generateProduct("type"));
     }
     
     @Test
-    public void testDegenerateNonExistingProduct() {
+    public void DegenerateProduct_WithNonExistingNumber_ShouldThrowUndefinedProductIDException() {
     	try {
     		registry.degenerateProduct(1);
     		fail();
@@ -56,7 +56,7 @@ public class TestProductsRegistry {
     }
     
     @Test
-    public void testDegenerateExistingProduct() {
+    public void DegenerateProduct_WithExistingNumber_ShouldNotThrowUndefinedProductIDException() {
     	registry.registerProduct("type", dummyProduct);
     	registry.generateProduct("type");
     	try {
@@ -68,14 +68,22 @@ public class TestProductsRegistry {
     }
     
     @Test
-    public void testFindExistingProducts() {
+    public void GetNumberOfProductsWithType_WithExistingType_ShouldReturnValueGreaterThanZero() {
     	registry.registerProduct("type", dummyProduct);
     	registry.generateProduct("type");
     	
     	assertEquals(registry.getNumberOfProductsWithType("type"), new Integer(1));
-    	assertEquals(registry.getNumberOfProductsWithType("unexisting type"), new Integer(-1));
-    	
     	assertEquals(registry.getProductsWithType("type").size(), 1);
+    }
+    
+    @Test
+    public void GetNumberOfProductsWithType_WithNonExistingType_ShouldReturnMinusOne() {
+    	registry.registerProduct("type", dummyProduct);
+    	registry.generateProduct("type");
+    	
+    	assertEquals(registry.getNumberOfProductsWithType("unexisting type"), new Integer(-1));
     	assertNull(registry.getProductsWithType("unexisting type"));
     }
+    
+    
 }

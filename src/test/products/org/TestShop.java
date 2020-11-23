@@ -34,7 +34,7 @@ public class TestShop {
     }
 
     @Test
-    public void testShopWithUnspecifiedTransactions() {
+    public void Purchase_WithRejectedTransaction_ShouldReturnFalse() {
 
     	Transaction transaction = new Transaction();
     	
@@ -49,7 +49,7 @@ public class TestShop {
     }
 
     @Test
-    public void testShopWithNonAvailableTransaction() {
+    public void Purchase_WithSingleInternetTransaction_ShouldReturnFalse() {
     	Transaction transaction = new Transaction();
     	
     	Cashier mockedCashier = mock(Cashier.class);
@@ -61,7 +61,7 @@ public class TestShop {
     }
 
     @Test
-    public void testShopWithSameTransaction() {
+    public void Purchase_WithRepeatedTransaction_ShouldReturnTrueFalse() {
     	transaction.account.setBalance(1000.0f);
     	
     	Cashier mockedCashier = mock(Cashier.class);
@@ -76,13 +76,13 @@ public class TestShop {
     }
     
     @Test
-    public void testShopWithIssuedBalanceValue() {
+    public void Purchase_WithEmptyBalance_ShouldReturnFalse() {
     	transaction.account.setBalance(0.0f);
     	assertEquals(false, shop.purchase(transaction));
     }
  
     @Test
-    public void testShopWithNormalBalanceValue() {
+    public void Purchase_WithNormalBalance_ShouldReturnTrue() {
     	transaction.account.setBalance(1000.0f);
     	
     	Cashier mockedCahiser = mock(Cashier.class);
@@ -99,7 +99,7 @@ public class TestShop {
     }
     
     @Test
-    public void testShopWithSubnormalTransactionType() {
+    public void Purchase_WithSubnormalTransactionType_ShouldReturnTrue() {
     	Transaction transaction = new Transaction();
     	transaction.type = TransactionType.SeflCheckout;
     	transaction.account = new Account(1000.0f, 1);
@@ -117,7 +117,7 @@ public class TestShop {
     }
     
     @Test
-    public void testShopServiceMethodsCalled() {
+    public void Purchase_WithSingleNormalProduct_ShouldReturnTrue() {
     	Transaction transaction = new Transaction();
     	transaction.type = TransactionType.SeflCheckout;
     	transaction.account = new Account(1000.0f, 1);
@@ -126,20 +126,11 @@ public class TestShop {
     	Service mockedService = mock(Service.class);
     	when(mockedService.isSupport(TransactionType.SeflCheckout)).thenReturn(true);
     	when(mockedService.purchase(transaction)).thenReturn(PurchaseStatus.Accepted);
-    	
+
     	shop.addService(mockedService);
-    	
-    	shop.purchase(transaction);
-    	
+    	assertEquals(true, shop.purchase(transaction));
+ 
     	verify(mockedService).isSupport(TransactionType.SeflCheckout);
     }
-    
-        
-    
-    @Test
-    public void testRegistryGeneratedSuccessfully() {
-    	assertNotNull(shop.getRegistry());
-    }
-    
     
 }

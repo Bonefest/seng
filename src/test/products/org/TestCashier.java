@@ -37,20 +37,20 @@ public class TestCashier {
 	}
 	
     @Test
-    public void TestNormalPurchase() {
+    public void Purchase_WithExistingNormalCashier_ShouldReturnTrue() {
     	transaction.account.setBalance(100.0f);
     	transaction.products.add(registry.generateProduct("type"));
     	assertEquals(shop.purchase(transaction), true);
     }
     
     @Test
-    public void TestAbnormalPurchase() {
+    public void Purchase_WithExistingSubnormalCashier_ShouldReturnFalse() {
     	transaction.products.add(registry.generateProduct("type"));
     	assertEquals(shop.purchase(transaction), false);
     }
     
     @Test
-    public void TestLimitedPurchase() {
+    public void Purchase_WithLimitedBalance_ShouldReturnFalse() {
     	
     	ProductData limitedProduct = new ProductData("limited", "some limited product", 2.0f, 0.0f, 0.0f);
     	
@@ -60,10 +60,20 @@ public class TestCashier {
     	transaction.products.add(registry.generateProduct("limited"));
     	
     	assertEquals(shop.purchase(transaction), false);
+    }
+    
+    @Test
+    public void Purchase_WithNormalBalance_ShouldReturnTrue() {
+    	
+    	ProductData limitedProduct = new ProductData("limited", "some limited product", 2.0f, 0.0f, 0.0f);
+    	
+    	registry.registerProduct("limited", limitedProduct);
+    	transaction.products.add(registry.generateProduct("limited"));
     	
     	transaction.account.setBalance(4.0f);
     	
     	assertEquals(shop.purchase(transaction), true);
     }
+    
     
 }
