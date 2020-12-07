@@ -1,6 +1,11 @@
 package src.main.products.org;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.mockito.internal.util.collections.ListUtil;
 
 public class Shop {
 
@@ -102,7 +107,18 @@ public class Shop {
         m_logger = logger;
         m_logger.onConnect();
     }
+    
+    public Product findMostCommonProduct(ArrayList<Transaction> transactions) {
+    	List<Product> sortedProducts = transactions.stream().
+    		map(transaction -> transaction.products).
+    		reduce(new ArrayList<Product>(), (current, rest) -> new ArrayList<Product>() {{addAll(current); addAll(rest);}}).
+    		stream().
+    		sorted(((productA, productB) -> productA.getName().compareTo(productB.getName()))).collect(Collectors.toList());
+    			
 
+    	return sortedProducts.get(0);
+    }
+    
     public ProductsRegistry getRegistry() {
         return m_registry;
     }

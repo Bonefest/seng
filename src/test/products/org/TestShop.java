@@ -23,7 +23,7 @@ public class TestShop {
     	
     	ProductData data = new ProductData("Product", "", 10.0f, 10.0f, 10.0f);
     	registry.registerProduct("product", data);
-    	
+	
     	//shop.addService(new Cashier());
     	
     	transaction = new Transaction();
@@ -59,7 +59,7 @@ public class TestShop {
     	
     	assertEquals(false, shop.purchase(transaction));
 
-	verify(mockedCashier).isSupport(TransactionType.Internet);
+    	verify(mockedCashier).isSupport(TransactionType.Internet);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class TestShop {
     	Cashier mockedCashier = mock(Cashier.class);
     	when(mockedCashier.isSupport(TransactionType.Authorative)).thenReturn(true);
 
-	shop.addService(mockedCahiser);
+    	shop.addService(mockedCashier);
 
     	assertEquals(false, shop.purchase(transaction));
 
@@ -144,6 +144,33 @@ public class TestShop {
  
     	verify(mockedService).isSupport(TransactionType.SeflCheckout);
 	verify(mockedService).purchase(any(Transaction.class));
+    }
+    
+    @Test
+    public void FindMostCommonProduct_WithTransactions_ShouldReturnFirstElement() {
+    		
+    	ProductData data2 = new ProductData("Product B", "", 10.0f, 10.0f, 10.0f);
+    	registry.registerProduct("productB", data2);
+    	
+    	Transaction transaction = new Transaction();
+    	transaction.type = TransactionType.SeflCheckout;
+    	transaction.account = new Account(1000.0f, 1);
+    	transaction.products = new ArrayList<Product>() { {add(registry.generateProduct("product")); } };
+    	
+    	Transaction transaction2 = new Transaction();
+    	transaction2.type = TransactionType.SeflCheckout;
+    	transaction2.account = new Account(1000.0f, 1);
+    	transaction2.products = new ArrayList<Product>() { {
+    		add(registry.generateProduct("product"));
+    		add(registry.generateProduct("productB"));
+    	} };
+    	
+    	ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    	transactions.add(transaction);
+    	transactions.add(transaction2);
+    	
+    	assertEquals(shop.findMostCommonProduct(transactions).getName(), "Product");
+    	
     }
     
 }

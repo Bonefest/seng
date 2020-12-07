@@ -1,6 +1,11 @@
 package src.main.products.org;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
+
+import org.apache.commons.math3.util.Pair;
+import com.google.common.base.Predicate;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -74,7 +79,43 @@ public class ProductsRegistry {
 
         throw new UndefinedProductIDException("Product ID " + id + " is undefined!");
     }
+    
+    public ArrayList<Product> getAvailableProducts() {
+    	ArrayList<Product> result = new ArrayList<Product>();
+    	for(ArrayList<Product> products: m_products.values()) {
+    		result.addAll(products);
+    	}
+    	
+    	return result;
+    }
+    
+    public double calculateTotalSumOfProductsWithType(String type) {
+    	return getProductsWithType(type).
+    			stream().
+    			mapToDouble(product -> product.getPrice()).
+    			reduce(0, (sum, price)-> sum + price);
+    }
+    
+    public Product calculateMostValuedProduct() {
+    	return getAvailableProducts().stream().
+    			max((left, right) -> Float.compare(left.getPrice(), right.getPrice())).get();
+    }
+    
+    public Double calculateAveragePrice() {
+    	ArrayList<Product> products = getAvailableProducts();
+    		
+    	return (products.stream().mapToDouble(product -> product.getPrice()).
+    				reduce(0, (prevSum, sum) -> prevSum + sum)) / products.size();
+    }
 
+    public Object[] findAllSuitableProducts(Predicate<? super Product> condition) {
+    	return new Object[] {
+    			getAvailableProducts().stream().filter(condition).collect(Collectors.toList()),
+    	        getAvailableProducts().stream().filter(condition.negate()).collect(Collectors.toList())
+    	};
+ 
+    }
+    
     public Collection<String> getAvailableProductTypes() {
     	return m_registry.keySet();
     }
