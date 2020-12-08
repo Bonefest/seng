@@ -1,6 +1,8 @@
 package src.main.products.org;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.math3.util.Pair;
@@ -108,12 +110,13 @@ public class ProductsRegistry {
     				reduce(0, (prevSum, sum) -> prevSum + sum)) / products.size();
     }
 
-    public Object[] findAllSuitableProducts(Predicate<? super Product> condition) {
-    	return new Object[] {
-    			getAvailableProducts().stream().filter(condition).collect(Collectors.toList()),
-    	        getAvailableProducts().stream().filter(condition.negate()).collect(Collectors.toList())
-    	};
- 
+    public Map<Boolean, List<Product>> findAllSuitableProducts(Predicate<? super Product> condition) {
+    	Map<Boolean, List<Product>> result = new HashMap<Boolean, List<Product>>();
+    	
+    	result.put(true,getAvailableProducts().stream().filter(condition).collect(Collectors.toList()));
+    	result.put(false, getAvailableProducts().stream().filter(condition.negate()).collect(Collectors.toList()));
+    	
+    	return result;
     }
     
     public Collection<String> getAvailableProductTypes() {

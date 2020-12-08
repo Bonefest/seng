@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @RunWith(JUnit4.class)
@@ -144,11 +145,10 @@ public class TestProductsRegistry {
     	registry.generateProduct("product a");
     	registry.generateProduct("product b");
     	
-    	Object[] pair = registry.findAllSuitableProducts(element -> element.getPrice() > 10.0f);
+    	Map<Boolean, List<Product>> pair = registry.findAllSuitableProducts(element -> element.getPrice() > 10.0f);
     	
-    	assertEquals(pair.length, 2);
-    	List<Product> suitable = (List<Product>)(pair[0]);
-    	List<Product> not_suitable = (List<Product>)(pair[0]);
+    	List<Product> suitable = pair.get(true);
+    	List<Product> not_suitable = pair.get(false);
     	
     	assertEquals(suitable.size(), 1);
     	assertEquals(not_suitable.size(), 1);
