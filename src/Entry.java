@@ -74,22 +74,10 @@ class Entry {
         return result;
     }
 
-    private static Transaction generateDemoTransaction() {
-    	Collection<String> productTypes = m_registry.getAvailableProductTypes();
-    	String[] convertedProductTypes = productTypes.toArray(new String[productTypes.size()]);
-    	
-	    Transaction transaction = new Transaction();
-	    transaction.account = new Account(m_random.nextFloat() * 1000.0f, 1);
-	    transaction.products = generateProducts(convertedProductTypes, m_random.nextInt(9) + 1);
-	    transaction.type = TransactionType.Authorative;
-	    
-	    return transaction;
-    }
     
     public static void main(String[] args) {
     	
     	initializeShop();
-    	Transaction demoTransaction = generateDemoTransaction();
     	
     	if(m_random.nextBoolean() && m_random.nextBoolean()) {
     		try {
@@ -103,9 +91,6 @@ class Entry {
     		}
     	}
     	
-        System.out.println("Attempt to buy next products:\n");
-        renderProducts(demoTransaction.products);
-        m_shop.purchase(demoTransaction);
 
     }
 
