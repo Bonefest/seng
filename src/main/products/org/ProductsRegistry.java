@@ -113,10 +113,8 @@ public class ProductsRegistry {
     public Map<Boolean, List<Product>> findAllSuitableProducts(Predicate<? super Product> condition) {
     	Map<Boolean, List<Product>> result = new HashMap<Boolean, List<Product>>();
     	
-    	result.put(true,getAvailableProducts().stream().filter(condition).collect(Collectors.toList()));
-    	result.put(false, getAvailableProducts().stream().filter(condition.negate()).collect(Collectors.toList()));
+    	return getAvailableProducts().stream().collect(Collectors.partitioningBy(condition));
     	
-    	return result;
     }
     
     public Collection<String> getAvailableProductTypes() {
