@@ -109,14 +109,12 @@ public class Shop {
     }
     
     public Product findMostCommonProduct(ArrayList<Transaction> transactions) {
-    	List<Product> sortedProducts = transactions.stream().
+    	return transactions.stream().
     		map(transaction -> transaction.products).
     		reduce(new ArrayList<Product>(), (current, rest) -> new ArrayList<Product>() {{addAll(current); addAll(rest);}}).
     		stream().
-    		sorted(((productA, productB) -> productA.getName().compareTo(productB.getName()))).collect(Collectors.toList());
+    		sorted(((productA, productB) -> productA.getName().compareTo(productB.getName()))).collect(Collectors.toList()).get(0);
     			
-
-    	return sortedProducts.get(0);
     }
     
     public ProductsRegistry getRegistry() {

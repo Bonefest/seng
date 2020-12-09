@@ -111,8 +111,6 @@ public class ProductsRegistry {
     }
 
     public Map<Boolean, List<Product>> findAllSuitableProducts(Predicate<? super Product> condition) {
-    	Map<Boolean, List<Product>> result = new HashMap<Boolean, List<Product>>();
-    	
     	return getAvailableProducts().stream().collect(Collectors.partitioningBy(condition));
     	
     }
