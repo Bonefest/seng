@@ -1,6 +1,6 @@
-package src.test.products.org;
+package test.products.org;
 
-import src.main.products.org.*;
+import main.products.org.*;
 import java.util.ArrayList;
 
 import org.junit.*;

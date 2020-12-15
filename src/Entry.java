@@ -1,6 +1,5 @@
-package src;
 
-import src.main.products.org.*;
+import main.products.org.*;
 
 import java.util.List;
 import java.util.ArrayList;

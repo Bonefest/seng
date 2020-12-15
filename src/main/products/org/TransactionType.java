@@ -1,4 +1,4 @@
-package src.main.products.org;
+package main.products.org;
 
 public enum TransactionType {
     Authorative(true, 0),

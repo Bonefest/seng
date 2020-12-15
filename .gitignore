@@ -14,10 +14,7 @@ bin/
 settings.gradle
 gradlew
 gradlew.bat
-build.gradle
 .settings/
-.project
-.gradle
 .project
 
 # Created by https://www.toptal.com/developers/gitignore/api/eclipse
