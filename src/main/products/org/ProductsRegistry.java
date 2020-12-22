@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.math3.util.Pair;
-import com.google.common.base.Predicate;
+// import com.google.common.base.Predicate;
+
+import java.util.function.*;
 
 import java.util.ArrayList;
 import java.util.Collection;

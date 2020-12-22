@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 
 @RunWith(JUnit4.class)
-public class TestCashier {
+public class CashierTest {
 	
 	private ProductsRegistry registry;
 	private ProductData dummyProduct;

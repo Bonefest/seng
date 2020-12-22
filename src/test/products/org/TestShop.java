@@ -59,7 +59,7 @@ public class TestShop {
     	
     	assertEquals(false, shop.purchase(transaction));
 
-    	verify(mockedCashier).isSupport(TransactionType.Internet);
+    	verify(mockedCashier).isSupport(null);
     }
 
     @Test
