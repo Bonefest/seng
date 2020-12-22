@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
-public class TestShop {
+public class ShopIT {
 
     private Shop shop = new Shop();
     private ProductsRegistry registry;
@@ -66,16 +66,15 @@ public class TestShop {
     public void Purchase_WithRepeatedTransaction_ShouldReturnTrueFalse() {
     	transaction.account.setBalance(1000.0f);
     	
-    	Cashier mockedCashier = mock(Cashier.class);
-    	when(mockedCashier.isSupport(TransactionType.Authorative)).thenReturn(true);
-    	when(mockedCashier.purchase(transaction)).thenReturn(PurchaseStatus.Accepted);
-    	shop.addService(mockedCashier);
+    	Cashier spiedCashier = spy(Cashier.class);
+    	when(spiedCashier.isSupport(TransactionType.Authorative)).thenReturn(true);
+    	shop.addService(spiedCashier);
     	
     	assertEquals(shop.purchase(transaction), true);
     	assertEquals(shop.purchase(transaction), false);
     	
-    	verify(mockedCashier).isSupport(TransactionType.Authorative);
-	verify(mockedCashier).purchase(any(Transaction.class));
+    	verify(spiedCashier).isSupport(TransactionType.Authorative);
+    	verify(spiedCashier).purchase(any(Transaction.class));
     }
     
     @Test
@@ -89,24 +88,23 @@ public class TestShop {
 
     	assertEquals(false, shop.purchase(transaction));
 
-	verify(mockedCashier).isSupport(TransactionType.Authorative);
+    	verify(mockedCashier).isSupport(TransactionType.Authorative);
     }
  
     @Test
     public void Purchase_WithNormalBalance_ShouldReturnTrue() {
     	transaction.account.setBalance(1000.0f);
     	
-    	Cashier mockedCahiser = mock(Cashier.class);
-    	when(mockedCahiser.isSupport(TransactionType.Authorative)).thenReturn(true);
-    	when(mockedCahiser.isSupport(TransactionType.Internet)).thenReturn(true);
-    	when(mockedCahiser.purchase(transaction)).thenReturn(PurchaseStatus.Accepted);
+    	Cashier spiedCahiser = spy(Cashier.class);
+    	when(spiedCahiser.isSupport(TransactionType.Authorative)).thenReturn(true);
+    	when(spiedCahiser.isSupport(TransactionType.Internet)).thenReturn(true);
     	
-    	shop.addService(mockedCahiser);
+    	shop.addService(spiedCahiser);
     	
     	assertEquals(true, shop.purchase(transaction));
     	
-    	verify(mockedCahiser).isSupport(TransactionType.Authorative);
-    	verify(mockedCahiser).purchase(any(Transaction.class));
+    	verify(spiedCahiser).isSupport(TransactionType.Authorative);
+    	verify(spiedCahiser).purchase(any(Transaction.class));
     }
     
     @Test
@@ -143,34 +141,9 @@ public class TestShop {
     	assertEquals(true, shop.purchase(transaction));
  
     	verify(mockedService).isSupport(TransactionType.SeflCheckout);
-	verify(mockedService).purchase(any(Transaction.class));
+    	verify(mockedService).purchase(any(Transaction.class));
     }
     
-    @Test
-    public void FindMostCommonProduct_WithTransactions_ShouldReturnFirstElement() {
-    		
-    	ProductData data2 = new ProductData("Product B", "", 10.0f, 10.0f, 10.0f);
-    	registry.registerProduct("productB", data2);
-    	
-    	Transaction transaction = new Transaction();
-    	transaction.type = TransactionType.SeflCheckout;
-    	transaction.account = new Account(1000.0f, 1);
-    	transaction.products = new ArrayList<Product>() { {add(registry.generateProduct("product")); } };
-    	
-    	Transaction transaction2 = new Transaction();
-    	transaction2.type = TransactionType.SeflCheckout;
-    	transaction2.account = new Account(1000.0f, 1);
-    	transaction2.products = new ArrayList<Product>() { {
-    		add(registry.generateProduct("product"));
-    		add(registry.generateProduct("productB"));
-    	} };
-    	
-    	ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-    	transactions.add(transaction);
-    	transactions.add(transaction2);
-    	
-    	assertEquals(shop.findMostCommonProduct(transactions).getName(), "Product");
-    	
-    }
+
     
 }

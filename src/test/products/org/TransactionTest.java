@@ -10,7 +10,7 @@ import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class TestTransaction {
+public class TransactionTest {
 
     @Test
     public void Equals_WithOnlyDifferentTransactionTypes_ShouldReturnTrue() {

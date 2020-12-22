@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @RunWith(JUnit4.class)
-public class TestProductsRegistry {
+public class ProductsRegistryTest {
 	
 	private ProductsRegistry registry;
 	private ProductData      dummyProduct;
