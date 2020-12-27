@@ -33,7 +33,7 @@
                 		**/*IT.java
                 	</excludes>
                 </configuration>
-  
+  		
                 <executions>
                 	<execution>
                 		<id>unit-tests</id>
