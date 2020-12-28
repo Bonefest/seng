@@ -1,14 +1,14 @@
 package main.products.org;
 
 public enum TransactionType {
-    Authorative(true, 0),
-    SeflCheckout(false, 1),
-    Internet(false, 2);
+    AUTHORATIVE(true, 0),
+    SELF_CHECKOUT(false, 1),
+    INTERNET(false, 2);
     
 	boolean requiresCashier;
 	int     securityLevel;
 	
-    TransactionType(boolean requiresCashier, int secutiryLevel) {
+    TransactionType(boolean requiresCashier, int securityLevel) {
     	this.requiresCashier = requiresCashier;
     	this.securityLevel   = securityLevel;
     }

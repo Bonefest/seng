@@ -5,6 +5,6 @@ public interface TransactionLoggerInterface {
     public void log(Transaction transaction);
     public void log(String message);
 
-    default public void onConnect() { }
+    public default void onConnect() { }
 
 }

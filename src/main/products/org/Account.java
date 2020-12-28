@@ -2,24 +2,24 @@ package main.products.org;
 
 public class Account {
 
-    private Float   m_balance;
-    private Integer m_guid;
+    private Float   balance;
+    private Integer guid;
 
-    public Account(Float startBalance, Integer guid) {
-        m_balance = startBalance;
-        m_guid = guid;
+    public Account(Float startBalance, Integer inGuid) {
+        balance = startBalance;
+        guid = inGuid;
     }
 
     public Float getBalance() {
-        return m_balance;
+        return balance;
     }
 
     public Integer getGUID() {
-        return m_guid;
+        return guid;
     }
 
     public void setBalance(Float value) {
-        m_balance = value;
+        balance = value;
     }
 
 

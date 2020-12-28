@@ -17,8 +17,7 @@
 
     <build>
     
-   		<!-- <sourceDirectory>src</sourceDirectory> -->
-   		<testSourceDirectory>src</testSourceDirectory>
+		<testSourceDirectory>src</testSourceDirectory>
         <finalName>maven-tests</finalName>
         <plugins>
 
@@ -126,7 +125,14 @@
 		    <artifactId>guava</artifactId>
 		    <version>r05</version>
 		</dependency>
-		
+
+        <dependency>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+          <version>1.2.17</version>
+
+        </dependency>
+
     </dependencies>
     
 </project>

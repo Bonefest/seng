@@ -27,9 +27,10 @@ public class ShopIT {
     	//shop.addService(new Cashier());
     	
     	transaction = new Transaction();
-    	transaction.type = TransactionType.Authorative;
+    	transaction.type = TransactionType.AUTHORATIVE;
     	transaction.account = new Account(0.0f, 1);
-    	transaction.products = new ArrayList<Product>() { {add(registry.generateProduct("product")); } };
+    	transaction.products = new ArrayList<Product>();
+    	transaction.products.add(registry.generateProduct("product"));
     	
     }
 
@@ -39,7 +40,7 @@ public class ShopIT {
     	Transaction transaction = new Transaction();
     	
     	Cashier mockedCashier = mock(Cashier.class);
-    	when(mockedCashier.purchase(transaction)).thenReturn(PurchaseStatus.Rejected);
+    	when(mockedCashier.purchase(transaction)).thenReturn(PurchaseStatus.REJECTED);
     	
     	shop.addService(mockedCashier);
     	
@@ -50,14 +51,14 @@ public class ShopIT {
 
     @Test
     public void Purchase_WithSingleInternetTransaction_ShouldReturnFalse() {
-    	Transaction transaction = new Transaction();
+    	Transaction ltransaction = new Transaction();
     	
     	Cashier mockedCashier = mock(Cashier.class);
-    	when(mockedCashier.isSupport(TransactionType.Internet)).thenReturn(false);
+    	when(mockedCashier.isSupport(TransactionType.INTERNET)).thenReturn(false);
     	
     	shop.addService(mockedCashier);
     	
-    	assertEquals(false, shop.purchase(transaction));
+    	assertEquals(false, shop.purchase(ltransaction));
 
     	verify(mockedCashier).isSupport(null);
     }
@@ -67,13 +68,13 @@ public class ShopIT {
     	transaction.account.setBalance(1000.0f);
     	
     	Cashier spiedCashier = spy(Cashier.class);
-    	when(spiedCashier.isSupport(TransactionType.Authorative)).thenReturn(true);
+    	when(spiedCashier.isSupport(TransactionType.AUTHORATIVE)).thenReturn(true);
     	shop.addService(spiedCashier);
     	
     	assertEquals(shop.purchase(transaction), true);
     	assertEquals(shop.purchase(transaction), false);
     	
-    	verify(spiedCashier).isSupport(TransactionType.Authorative);
+    	verify(spiedCashier).isSupport(TransactionType.AUTHORATIVE);
     	verify(spiedCashier).purchase(any(Transaction.class));
     }
     
@@ -82,13 +83,13 @@ public class ShopIT {
     	transaction.account.setBalance(0.0f);
 
     	Cashier mockedCashier = mock(Cashier.class);
-    	when(mockedCashier.isSupport(TransactionType.Authorative)).thenReturn(true);
+    	when(mockedCashier.isSupport(TransactionType.AUTHORATIVE)).thenReturn(true);
 
     	shop.addService(mockedCashier);
 
     	assertEquals(false, shop.purchase(transaction));
 
-    	verify(mockedCashier).isSupport(TransactionType.Authorative);
+    	verify(mockedCashier).isSupport(TransactionType.AUTHORATIVE);
     }
  
     @Test
@@ -96,27 +97,28 @@ public class ShopIT {
     	transaction.account.setBalance(1000.0f);
     	
     	Cashier spiedCahiser = spy(Cashier.class);
-    	when(spiedCahiser.isSupport(TransactionType.Authorative)).thenReturn(true);
-    	when(spiedCahiser.isSupport(TransactionType.Internet)).thenReturn(true);
+    	when(spiedCahiser.isSupport(TransactionType.AUTHORATIVE)).thenReturn(true);
+    	when(spiedCahiser.isSupport(TransactionType.INTERNET)).thenReturn(true);
     	
     	shop.addService(spiedCahiser);
     	
     	assertEquals(true, shop.purchase(transaction));
     	
-    	verify(spiedCahiser).isSupport(TransactionType.Authorative);
+    	verify(spiedCahiser).isSupport(TransactionType.AUTHORATIVE);
     	verify(spiedCahiser).purchase(any(Transaction.class));
     }
     
     @Test
     public void Purchase_WithSubnormalTransactionType_ShouldReturnTrue() {
     	Transaction transaction = new Transaction();
-    	transaction.type = TransactionType.SeflCheckout;
+    	transaction.type = TransactionType.SELF_CHECKOUT;
     	transaction.account = new Account(1000.0f, 1);
-    	transaction.products = new ArrayList<Product>() { {add(registry.generateProduct("product")); } };
+    	transaction.products = new ArrayList<Product>();
+    	transaction.products.add(registry.generateProduct("product"));
     	
     	Service mockedService = mock(Service.class);
-    	when(mockedService.isSupport(TransactionType.SeflCheckout)).thenReturn(true);
-    	when(mockedService.purchase(transaction)).thenReturn(PurchaseStatus.Accepted);
+    	when(mockedService.isSupport(TransactionType.SELF_CHECKOUT)).thenReturn(true);
+    	when(mockedService.purchase(transaction)).thenReturn(PurchaseStatus.ACCEPTED);
     	
     	shop.addService(mockedService);
     	
@@ -128,19 +130,20 @@ public class ShopIT {
     
     @Test
     public void Purchase_WithSingleNormalProduct_ShouldReturnTrue() {
-    	Transaction transaction = new Transaction();
-    	transaction.type = TransactionType.SeflCheckout;
-    	transaction.account = new Account(1000.0f, 1);
-    	transaction.products = new ArrayList<Product>() { {add(registry.generateProduct("product")); } };
+    	Transaction ltransaction = new Transaction();
+    	ltransaction.type = TransactionType.SELF_CHECKOUT;
+    	ltransaction.account = new Account(1000.0f, 1);
+    	ltransaction.products = new ArrayList<Product>();
+    	ltransaction.products.add(registry.generateProduct("product"));
     	
     	Service mockedService = mock(Service.class);
-    	when(mockedService.isSupport(TransactionType.SeflCheckout)).thenReturn(true);
-    	when(mockedService.purchase(transaction)).thenReturn(PurchaseStatus.Accepted);
+    	when(mockedService.isSupport(TransactionType.SELF_CHECKOUT)).thenReturn(true);
+    	when(mockedService.purchase(ltransaction)).thenReturn(PurchaseStatus.ACCEPTED);
 
     	shop.addService(mockedService);
-    	assertEquals(true, shop.purchase(transaction));
+    	assertEquals(true, shop.purchase(ltransaction));
  
-    	verify(mockedService).isSupport(TransactionType.SeflCheckout);
+    	verify(mockedService).isSupport(TransactionType.SELF_CHECKOUT);
     	verify(mockedService).purchase(any(Transaction.class));
     }
     

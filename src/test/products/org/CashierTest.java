@@ -33,7 +33,7 @@ public class CashierTest {
 		transaction = new Transaction();
 		transaction.account = new Account(0.0f, 0);
 		transaction.products = new ArrayList<Product>();
-		transaction.type = TransactionType.Authorative;
+		transaction.type = TransactionType.AUTHORATIVE;
 	}
 	
     @Test

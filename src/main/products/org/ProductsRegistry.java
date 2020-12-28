@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// import com.google.common.base.Predicate;
-
 import java.util.function.*;
 
 import java.util.ArrayList;
@@ -14,16 +12,16 @@ import java.util.Collection;
 
 public class ProductsRegistry {
 
-    private HashMap<String, ProductData>        m_registry;
-    private HashMap<String, ArrayList<Product>> m_products;
+    private HashMap<String, ProductData>        registry;
+    private HashMap<String, ArrayList<Product>> products;
 
-    private Integer m_idCounter;
+    private Integer idCounter;
 
     public ProductsRegistry() {
-        m_idCounter = 0;
+        idCounter = 0;
 
-        m_registry = new HashMap<String, ProductData>();
-        m_products = new HashMap<String, ArrayList<Product>>();
+        registry = new HashMap<>();
+        products = new HashMap<>();
     }
     
     public boolean registerProduct(Integer hexType, ProductData data) {
@@ -31,11 +29,11 @@ public class ProductsRegistry {
     }
 
     public boolean registerProduct(String type, ProductData data) {
-        if(m_registry.containsKey(type)) {
+        if(registry.containsKey(type)) {
             return false;
         }
         
-        for(ProductData registryData : m_registry.values()) {
+        for(ProductData registryData : registry.values()) {
         	// NOTE(mizofix): Attempt to register same product type with several
         	// names is incorrect!
         	if(data.equals(registryData)) {
@@ -43,22 +41,22 @@ public class ProductsRegistry {
         	}
         }
 
-        m_registry.put(type, data);
+        registry.put(type, data);
         return true;
     }
 
     public boolean unregisterProduct(String name) {
-        return (m_registry.remove(name) != null);
+        return (registry.remove(name) != null);
     }
     
     public Product generateProduct(String type) {
-        ProductData data = m_registry.get(type);
+        ProductData data = registry.get(type);
         if(data != null) {
-            Product product = new Product(data, m_idCounter++);
-            ArrayList<Product> list = m_products.get(type);
+            Product product = new Product(data, idCounter++);
+            ArrayList<Product> list = products.get(type);
             if(list == null) {
-                list = new ArrayList<Product>();
-                m_products.put(type, list);
+                list = new ArrayList<>();
+                products.put(type, list);
             }
 
             list.add(product);
@@ -71,10 +69,10 @@ public class ProductsRegistry {
 
     public void degenerateProduct(Integer id) throws UndefinedProductIDException{
         // WARNING(mizofix): Extremely naive implementation
-        for(String type : m_products.keySet()) {
-            for(Product product: m_products.get(type)) {
+        for(String type : products.keySet()) {
+            for(Product product: products.get(type)) {
                 if(product.getID() == id) {
-                    m_products.remove(product);
+                    products.remove(product);
                     return;
                 }
             }
@@ -83,10 +81,10 @@ public class ProductsRegistry {
         throw new UndefinedProductIDException("Product ID " + id + " is undefined!");
     }
     
-    public ArrayList<Product> getAvailableProducts() {
-    	ArrayList<Product> result = new ArrayList<Product>();
-    	for(ArrayList<Product> products: m_products.values()) {
-    		result.addAll(products);
+    public List<Product> getAvailableProducts() {
+    	ArrayList<Product> result = new ArrayList<>();
+    	for(ArrayList<Product> prods: products.values()) {
+    		result.addAll(prods);
     	}
     	
     	return result;
@@ -105,10 +103,10 @@ public class ProductsRegistry {
     }
     
     public Double calculateAveragePrice() {
-    	ArrayList<Product> products = getAvailableProducts();
+    	List<Product> prods = getAvailableProducts();
     		
-    	return (products.stream().mapToDouble(product -> product.getPrice()).
-    				reduce(0, (prevSum, sum) -> prevSum + sum)) / products.size();
+    	return (prods.stream().mapToDouble(product -> product.getPrice()).
+                reduce(0, (prevSum, sum) -> prevSum + sum)) / products.size();
     }
 
     public Map<Boolean, List<Product>> findAllSuitableProducts(Predicate<? super Product> condition) {
@@ -117,25 +115,25 @@ public class ProductsRegistry {
     }
     
     public Collection<String> getAvailableProductTypes() {
-    	return m_registry.keySet();
+    	return registry.keySet();
     }
     
-    public ArrayList<Product> getProductsWithType(String type) {
-        ArrayList<Product> products = m_products.get(type);
-        if(products != null) {
-            products = (ArrayList)products.clone();
+    public List<Product> getProductsWithType(String type) {
+        List<Product> prods = products.get(type);
+        if(prods != null) {
+            prods = new ArrayList<Product>(prods);
         }
 
-        return products;
+        return prods;
     }
 
-    public Integer getNumberOfProductsWithType(String type) {
-        ArrayList<Product> products = m_products.get(type);
-        if(products != null) {
-            return new Integer(products.size());
+    public int getNumberOfProductsWithType(String type) {
+        List<Product> prods = products.get(type);
+        if(prods != null) {
+            return (int)prods.size();
         }
 
-        return new Integer(-1);
+        return (int)-1;
     }
 
 }

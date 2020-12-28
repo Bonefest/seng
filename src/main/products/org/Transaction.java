@@ -7,6 +7,7 @@ public class Transaction {
     public ArrayList<Product> products;
     public TransactionType    type;
     
+    @Override
     public boolean equals(Object object) {
     	if(object == this) {
     		return true;
@@ -18,5 +19,15 @@ public class Transaction {
     	
     	Transaction transaction = (Transaction) object;
     	return (transaction.account == account) && (transaction.products == products);
+    }
+    
+    @Override
+    public int hashCode() {
+    	int result = 17;
+    	result = 31 * result + account.hashCode();
+    	result = 31 * result + products.hashCode();
+    	result = 31 * result + type.hashCode();
+    	
+    	return result;
     }
 }

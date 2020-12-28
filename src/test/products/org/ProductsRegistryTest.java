@@ -2,13 +2,11 @@ package test.products.org;
 
 import main.products.org.*;
 import org.junit.*;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +74,7 @@ public class ProductsRegistryTest {
     	registry.registerProduct("type", dummyProduct);
     	registry.generateProduct("type");
     	
-    	assertEquals(registry.getNumberOfProductsWithType("type"), new Integer(1));
+    	assertEquals(registry.getNumberOfProductsWithType("type"), (int)1);
     	assertEquals(registry.getProductsWithType("type").size(), 1);
     }
     
@@ -85,17 +83,19 @@ public class ProductsRegistryTest {
     	registry.registerProduct("type", dummyProduct);
     	registry.generateProduct("type");
     	
-    	assertEquals(registry.getNumberOfProductsWithType("unexisting type"), new Integer(-1));
+    	assertEquals(registry.getNumberOfProductsWithType("unexisting type"), (int)-1);
     	assertNull(registry.getProductsWithType("unexisting type"));
     }
     
     @Test
     public void calculateTotalSumOfProductsWithType_WithProducts_ShouldReturnValueGreaterThanZero() {
-    	registry.registerProduct("some product", dummyProduct);
-    	registry.generateProduct("some product");
-    	registry.generateProduct("some product");
+        String typeName = "some product";
+
+        registry.registerProduct(typeName, dummyProduct);
+    	registry.generateProduct(typeName);
+    	registry.generateProduct(typeName);
     	
-    	assertEquals(new Double(registry.calculateTotalSumOfProductsWithType("some product")), new Double(10.0));
+    	assertEquals((double)registry.calculateTotalSumOfProductsWithType(typeName), 10.0);
     }
     
     @Test

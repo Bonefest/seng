@@ -2,64 +2,64 @@ package main.products.org;
 
 public class ProductData {
 
-    private String m_name;
-    private String m_description;
-    private Float  m_price;
-    private Float  m_weight;
-    private Float  m_volume;
+    private String name;
+    private String description;
+    private Float  price;
+    private Float  weight;
+    private Float  volume;
 
-    public ProductData(String name,
-                       String description,
-                       Float price,
-                       Float weight,
-                       Float volume) {
-        m_name = name;
-        m_description = description;
-        m_price = price;
-        m_weight = weight;
-        m_volume = volume;
+    public ProductData(String inName,
+                       String inDescription,
+                       Float inPrice,
+                       Float inWeight,
+                       Float inVolume) {
+        name = inName;
+        description = inDescription;
+        price = inPrice;
+        weight = inWeight;
+        volume = inVolume;
     }
 
 
-    public void setName(String name) {
-        m_name = name;
+    public void setName(String inName) {
+        name = inName;
     }
 
-    public void setDescription(String description) {
-        m_description = description;
+    public void setDescription(String inDescription) {
+        description = inDescription;
     }
 
-    public void setPrice(Float price) {
-        m_price = price;
+    public void setPrice(Float inPrice) {
+        price = inPrice;
     }
 
-    public void setWeight(Float weight) {
-        m_weight = weight;
+    public void setWeight(Float inWeight) {
+        weight = inWeight;
     }
 
-    public void setVolume(Float volume) {
-        m_volume = volume;
+    public void setVolume(Float inVolume) {
+        volume = inVolume;
     }
 
 
     public String getName() {
-        return m_name;
+        return name;
     }
 
     public String getDescription() {
-        return m_description;
+        return description;
     }
 
     public Float getPrice() {
-        return m_price;
+        return price;
     }
 
     public Float getWeight() {
-        return m_weight;
+        return weight;
     }
 
     public Float getVolume() {
-        return m_volume;
+        return volume;
     }
 
 }

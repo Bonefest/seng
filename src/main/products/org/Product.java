@@ -3,39 +3,39 @@ package main.products.org;
 
 public class Product {
 
-    private ProductData m_data;
-    private Integer     m_id;
+    private ProductData data;
+    private Integer     id;
 
-    public Product(ProductData data, Integer id) {
-        m_data = data;
-        m_id = id;
+    public Product(ProductData inData, Integer inId) {
+        data = inData;
+        id = inId;
     }
 
     // NOTE(mizofix): Getters to prevent undesired modification
     // of common data
 
     public String getName() {
-        return m_data.getName();
+        return data.getName();
     }
 
     public String getDescription() {
-        return m_data.getDescription();
+        return data.getDescription();
     }
 
     public Float  getPrice() {
-        return m_data.getPrice();
+        return data.getPrice();
     }
 
     public Float  getWeight() {
-        return m_data.getWeight();
+        return data.getWeight();
     }
 
     public Float  getVolume() {
-        return m_data.getVolume();
+        return data.getVolume();
     }
 
     public Integer getID() {
-        return m_id;
+        return id;
     }
 
 }

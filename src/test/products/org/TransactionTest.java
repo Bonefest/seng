@@ -1,7 +1,6 @@
 package test.products.org;
 
 import main.products.org.*;
-import java.util.ArrayList;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -18,11 +17,11 @@ public class TransactionTest {
     	
     	Transaction transactionA = new Transaction();
     	transactionA.account = account;
-    	transactionA.type = TransactionType.Authorative;
+    	transactionA.type = TransactionType.AUTHORATIVE;
     	
     	Transaction transactionB = new Transaction();
     	transactionB.account = account;
-    	transactionB.type = TransactionType.Internet;
+    	transactionB.type = TransactionType.INTERNET;
     	
     	assertTrue(transactionA.equals(transactionB));
     }
@@ -34,11 +33,11 @@ public class TransactionTest {
     	
     	Transaction transactionA = new Transaction();
     	transactionA.account = account;
-    	transactionA.type = TransactionType.Authorative;
+    	transactionA.type = TransactionType.AUTHORATIVE;
     	
     	Transaction transactionB = new Transaction();
     	transactionB.account = account2;
-    	transactionB.type = TransactionType.Authorative;
+    	transactionB.type = TransactionType.AUTHORATIVE;
     	
     	assertFalse(transactionA.equals(transactionB));
     }
@@ -49,7 +48,7 @@ public class TransactionTest {
     	
     	Transaction transactionA = new Transaction();
     	transactionA.account = account;
-    	transactionA.type = TransactionType.Authorative;
+    	transactionA.type = TransactionType.AUTHORATIVE;
     	
     	assertFalse(transactionA.equals(account));
     }
